@@ -92,12 +92,105 @@ public:
         }
         return *this;
     }
+ matrix& losuj(int x) {
+        srand(time(nullptr));
+        for (int k = 0; k < x; ++k) {
+            int row = rand() % n;
+            int col = rand() % n;
+            data[row][col] = rand() % 10;
+        }
+        return *this;
+    }
+
+    matrix& diagonalna(int* t) {
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (i == j) {
+                    data[i][j] = t[i];
+                } else {
+                    data[i][j] = 0;
+                }
+            }
+        }
+        return *this;
+    }
+
+    matrix& diagonalna_k(int k, int* t) {
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (i - j == k) {
+                    data[i][j] = t[i];
+                } else {
+                    data[i][j] = 0;
+                }
+            }
+        }
+        return *this;
+    }
+
+    matrix& kolumna(int x, int* t) {
+        if (x >= 0 && x < n) {
+            for (int i = 0; i < n; ++i) {
+                data[i][x] = t[i];
+            }
+        }
+        return *this;
+    }
+
+    matrix& wiersz(int y, int* t) {
+        if (y >= 0 && y < n) {
+            for (int j = 0; j < n; ++j) {
+                data[y][j] = t[j];
+            }
+        }
+        return *this;
+    }
 };
 
 int main() {
     matrix m;
-    m.alokuj(30).losuj();
-    std::cout << "Losowa macierz 30x30:\n";
+    m.alokuj(30).losuj(10);
+    std::cout << "Macierz po losowaniu 10 cyfr:\n";
+    for (int i = 0; i < 30; ++i) {
+        for (int j = 0; j < 30; ++j) {
+            std::cout << m.pokaz(i, j) << " ";
+        }
+        std::cout << "\n";
+    }
+
+    int diagonalData[30] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30};
+    m.diagonalna(diagonalData);
+    std::cout << "Macierz diagonalna:\n";
+    for (int i = 0; i < 30; ++i) {
+        for (int j = 0; j < 30; ++j) {
+            std::cout << m.pokaz(i, j) << " ";
+        }
+        std::cout << "\n";
+    }
+
+    int diagonalKData[30] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30};
+    m.diagonalna_k(5, diagonalKData);
+    std::cout << "Macierz diagonalna przesunięta o 5:\n";
+    for (int i = 0; i < 30; ++i) {
+        for (int j = 0; j < 30; ++j) {
+            std::cout << m.pokaz(i, j) << " ";
+        }
+        std::cout << "\n";
+    }
+
+    int columnData[30] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30};
+    m.kolumna(5, columnData);
+    std::cout << "Macierz po wstawieniu kolumny:\n";
+    for (int i = 0; i < 30; ++i) {
+        for (int j = 0; j < 30; ++j) {
+            std::cout << m.pokaz(i, j) << " ";
+        }
+        std::cout << "\n";
+    }
+
+    int rowData[30] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30};
+    m.wiersz(5, rowData);
+    std::cout << "Macierz po wstawieniu wiersza:\n";
     for (int i = 0; i < 30; ++i) {
         for (int j = 0; j < 30; ++j) {
             std::cout << m.pokaz(i, j) << " ";
